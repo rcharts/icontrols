@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Interactive Controls and rCharts</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <link rel="icon" type="image/png" href="favicon.ico">
+  <style>
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+  </style>
+  
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-responsive.no-icons.min.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
+<link  rel="stylesheet" 
+    href="http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css">
+  <link rel="stylesheet" href="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/bootstrap/css/bootstrap-responsive.min.css">
+  
+  <link rel="stylesheet" href="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/bootstrap/css/main.css">
+  <link rel="stylesheet" href="http://slidifylibraries2.googlecode.com/git/inst/libraries/highlighters/prettify/css/twitter-bootstrap.css" />
+  <script src="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/bootstrap/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/bootstrap/js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+    
+  
+</head>
+<body>
+   <!--[if lt IE 7]>
+     <p class="chromeframe">You are using an outdated browser. 
+       <a href="http://browsehappy.com/">Upgrade your browser today</a> or 
+       <a href="http://www.google.com/chromeframe/?redirect=true"> 
+         install Google Chrome Frame
+       </a> to better experience this site.
+    </p>
+   <![endif]-->
+   <!-- Ref: http://twitter.github.com/bootstrap/examples/hero.html -->
+   
+    <div class="container">
+      
+<p><link href='http://fonts.googleapis.com/css?family=Lora|Lato' rel='stylesheet' type='text/css'></p>
+
+<p><link rel="icon" 
+      type="image/png" 
+      href="http://rcharts.io/img/slidify_logo_notext.png"></p>
+
+<style>
+.container {
+  width: 1000px;
+}
+p {
+  font-family: "Lora";
+  font-size: 15px;
+  line-height: 24px;
+  text-align: justify;
+}
+h2 {
+  font-family: "Lato"
+}
+</style>
+
+<h2>Interactive Controls and rCharts</h2>
+
+<p id='author' class='text-muted'>by <a href='http://twitter.com/ramnath_vaidya'>Ramnath Vaidyanathan</a>, Dec 25, 2013</p>
+
+<!-- AddThis Button BEGIN -->
+
+<div class="addthis_toolbox addthis_default_style ">
+<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+<a class="addthis_button_tweet"></a>
+<a class="addthis_button_pinterest_pinit"></a>
+<a class="addthis_counter addthis_pill_style"></a>
+</div>
+
+<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4fdfcfd4773d48d3"></script>
+
+<!-- AddThis Button END -->
+
+<p><br/></p>
+
+<p>There was a recent blog post by <a href="https://twitter.com/Sheri_G">Sheri Gilley</a> of <a href="http://www.revolutionanalytics.com/">Revolution Analytics</a> on <a href="http://blog.revolutionanalytics.com/2013/12/combining-the-power-of-deployr-rcharts-and-angularjs.html">Combining the Power of DeployR, rCharts, and AngularJS</a>. It is a very cool application that showcases the power of <a href="http://www.r-project.org/">R</a> and <a href="http://www.revolutionanalytics.com/enterprise-deployment">Revolution R Enterprise</a>, in being able to integrate frameworks like <a href="http://rcharts.io">rCharts</a> and <a href="http://angularjs.org">AngularJS</a>. Although I haven&#39;t had the opportunity to play with <a href="http://www.revolutionanalytics.com/enterprise-deployment">DeployR</a>, I believe that along with <a href="http://www.rstudio.com/shiny/">Shiny</a> and <a href="http://opencpu.org">OpenCPU</a>, it presents a bright future for building and deploying interactive R applications on the web.</p>
+
+<p>Now, what some of you may not know is that integration of simple interactive controls using  <a href="http://angularjs.org">AngularJS</a> and <a href="http://davidwalsh.name/dat-gui">DatGUI</a> has been available in <a href="http://rcharts.io">rCharts</a> for quite some time now. The nice thing about using a framework like AngularJS is that a lot of the interactivity can be handled on the client side with minimal amount of code, after the chart has been created from R.</p>
+
+<p>Let us start by creating a simple scatterplot of mileage vs weight of cars from the ubiquitous <code>mtcars</code> dataset.</p>
+
+<pre><code class="r">library(rCharts)
+n1 &lt;- rPlot(mpg ~ wt, data = mtcars, color = &quot;gear&quot;, type = &quot;point&quot;)
+n1
+</code></pre>
+
+<iframe src='
+chart1.html
+' scrolling='no' seamless></iframe>
+
+<style>iframe{ width: 100%; height: 400px;}</style>
+
+<p>Suppose, we want to let the user choose the <code>x</code>, <code>y</code> and <code>color</code> variables interactively. This can be done using the <code>addControls</code> method, which accepts three arguments: (1) the variable to control, (2) it&#39;s current value and (3) the possible set of values to choose from. By default, <code>addControls</code> uses AngularJS to add the controls.</p>
+
+<pre><code class="r">n1$addControls(&quot;x&quot;, value = &quot;wt&quot;, values = names(mtcars))
+n1$addControls(&quot;y&quot;, value = &quot;wt&quot;, values = names(mtcars))
+n1$addControls(&quot;color&quot;, value = &quot;gear&quot;, values = names(mtcars))
+n1
+</code></pre>
+
+<iframe src='
+chart2.html
+' scrolling='no' seamless></iframe>
+
+<style>iframe{ width: 100%; height: 400px;}</style>
+
+<p>Let us build another chart with interactive controls, this time using the <a href="http://nvd3.org">NVD3</a> library for the chart and the <a href="http://davidwalsh.name/dat-gui">DatGUI</a> javascript library for interactive controls. As before, the code stays almost the same, except that we swap the controls template to use <code>datgui</code> instead of <code>angularjs</code>.</p>
+
+<pre><code class="r">HairEye &lt;- subset(as.data.frame(HairEyeColor), Sex == &quot;Male&quot;)
+n1 &lt;- nPlot(Freq ~ Eye, data = HairEye, group = &#39;Hair&#39;, type = &#39;multiBarChart&#39;)
+n1$addControls(&quot;type&quot;, &quot;multiBarChart&quot;, 
+  values = c(&#39;multiBarChart&#39;, &#39;multiBarHorizontalChart&#39;)
+)
+n1$setTemplate(script = system.file(&#39;libraries&#39;, &#39;nvd3&#39;, &#39;controls&#39;, &#39;datgui.html&#39;, package = &#39;rCharts&#39;))
+n1$set(width = 650)
+n1
+</code></pre>
+
+<iframe src='
+chart3.html
+' scrolling='no' seamless></iframe>
+
+<style>iframe{ width: 100%; height: 400px;}</style>
+
+<p>Currently, rCharts only supports simple controls, and my plan is to extend this support. In my next post, I will discuss how rCharts can integrate with a server side framework like <a href="http://rstudio.com/shiny">Shiny</a> or <a href="http://opencpu.org">OpenCPU</a> to allow for greater level of interactivity, that might involve more extensive manipulation of data.</p>
+
+<p><a href="http://github.com/rcharts/icontrols"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a></p>
+
+    </div>
+        
+</body>
+  <script src="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/bootstrap/js/vendor/bootstrap.min.js"></script>
+  <script src="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/bootstrap/js/plugins.js"></script>
+  <script src="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/bootstrap/js/main.js"></script>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- Google Prettify -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+  <script src='http://slidifylibraries2.googlecode.com/git/inst/libraries/highlighters/prettify/js/lang-r.js'></script>
+  <script>
+    var pres = document.getElementsByTagName("pre");
+    for (var i=0; i < pres.length; ++i) {
+      pres[i].className = "prettyprint linenums";
+    }
+    prettyPrint();
+  </script>
+  <!-- End Google Prettify --> 
+  </html>
